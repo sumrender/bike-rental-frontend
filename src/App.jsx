@@ -5,8 +5,6 @@ import Home from "./components/home/Home";
 import Dashboard from "./components/dashboard/Dashboard";
 import Admin from "./components/admin/Admin";
 
-console.log(Dashboard);
-
 const App = () => {
   return (
     <>

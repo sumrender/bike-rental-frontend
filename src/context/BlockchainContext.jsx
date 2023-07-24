@@ -24,9 +24,10 @@ const BlockchainProvider = ({ children }) => {
   const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 
   const connectWallet = async () => {
-    console.log("connect wallet called");
     try {
+      if (currentAccount) return;
       if (!window.ethereum) return alert("Please install Metamask");
+      console.log("connect wallet: fetching accounts");
       const accounts = await provider.listAccounts();
       console.log("connection successful");
       setCurrentAccount(accounts[0]);
@@ -38,24 +39,8 @@ const BlockchainProvider = ({ children }) => {
     }
   };
 
-  const checkIfWalletIsConnected = async () => {
-    try {
-      if (!window.ethereum) return alert("Please install Metamask");
-      const accounts = await provider.listAccounts();
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
-        if (accounts[0] === contractCreator) {
-          setIsOwner(true);
-        } else setIsOwner(false);
-        console.log("connection successful");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getOwnerBalance = async () => {
-    if(!isOwner) return;
+    if (!isOwner) return;
     try {
       const ownerBal = await contract.getOwnerBalance();
       let balanceFormatted = ethers.utils.formatEther(ownerBal);
@@ -67,7 +52,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   const withdrawOwnerBalance = async () => {
-    if(!isOwner) return;
+    if (!isOwner) return;
     try {
       await contract.withdrawOwnerBalance();
       console.log("Owner has withdrawn money successfully.");
@@ -80,7 +65,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   const getContractBalance = async () => {
-    if(!isOwner) return;
+    if (!isOwner) return;
     try {
       const contractBal = await contract.balanceOf();
       let balanceFormatted = ethers.utils.formatEther(contractBal);
@@ -254,7 +239,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkIfWalletIsConnected();
+    connectWallet();
     checkRenterExists();
     getRenterBalance();
     getDue();
