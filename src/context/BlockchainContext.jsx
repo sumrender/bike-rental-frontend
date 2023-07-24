@@ -23,12 +23,15 @@ const BlockchainProvider = ({ children }) => {
   const signer = provider.getSigner();
   const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 
+  console.log("currentAccount: ", currentAccount);
+
   const connectWallet = async () => {
     try {
       if (currentAccount) return;
       if (!window.ethereum) return alert("Please install Metamask");
       console.log("connect wallet: fetching accounts");
       const accounts = await provider.listAccounts();
+      console.log("accounts: ", accounts);
       console.log("connection successful");
       setCurrentAccount(accounts[0]);
       if (accounts[0] === contractCreator) setIsOwner(true);
