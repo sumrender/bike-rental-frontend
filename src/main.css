@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------- Not authorized dev component ---------------------------------- */
+/* Parent div */
+.not-authorized {
+  /* Set parent div to cover the full viewport */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Center the child div */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Set a background color or image to make it aesthetic */
+  background-color: #f0f0f0;
+  /* You can add other styles to make it aesthetic, such as border, padding, etc. */
+}
+
+/* Child div (centered content) */
+.centered-content {
+  /* Add styles to make it aesthetic, such as font size, color, background, etc. */
+  font-size: 24px;
+  color: #333;
+  padding: 20px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+
+  /* Center the button inside the div */
+  text-align: center;
+}
