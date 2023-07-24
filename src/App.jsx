@@ -2,8 +2,10 @@ import React from "react";
 import Navbar from "./components/nav/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/home/Home";
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import Admin from "./components/admin/Admin";
+
+console.log(Dashboard);
 
 const App = () => {
   return (
