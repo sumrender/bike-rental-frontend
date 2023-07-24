@@ -9,7 +9,7 @@ const BlockchainContext = createContext("");
 
 const BlockchainProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState();
   const [renterExists, setRenterExists] = useState();
   const [ownerBalance, setOwnerBalance] = useState();
 
@@ -30,7 +30,8 @@ const BlockchainProvider = ({ children }) => {
       const accounts = await provider.listAccounts();
       console.log("connection successful");
       setCurrentAccount(accounts[0]);
-      if (accounts[0] == contractCreator) setIsOwner(true);
+      if (accounts[0] === contractCreator) setIsOwner(true);
+      else setIsOwner(false);
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object");
@@ -45,14 +46,7 @@ const BlockchainProvider = ({ children }) => {
         setCurrentAccount(accounts[0]);
         if (accounts[0] === contractCreator) {
           setIsOwner(true);
-          console.log("owner waa");
-        } else {
-          console.log("not owner waa");
-          console.log({
-            contractCreator,
-            accounts,
-          });
-        }
+        } else setIsOwner(false);
         console.log("connection successful");
       }
     } catch (error) {
@@ -61,6 +55,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   const getOwnerBalance = async () => {
+    if(!isOwner) return;
     try {
       const ownerBal = await contract.getOwnerBalance();
       let balanceFormatted = ethers.utils.formatEther(ownerBal);
@@ -72,6 +67,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   const withdrawOwnerBalance = async () => {
+    if(!isOwner) return;
     try {
       await contract.withdrawOwnerBalance();
       console.log("Owner has withdrawn money successfully.");
@@ -84,6 +80,7 @@ const BlockchainProvider = ({ children }) => {
   };
 
   const getContractBalance = async () => {
+    if(!isOwner) return;
     try {
       const contractBal = await contract.balanceOf();
       let balanceFormatted = ethers.utils.formatEther(contractBal);
@@ -109,7 +106,7 @@ const BlockchainProvider = ({ children }) => {
     try {
       const renterData = await contract.getRenter(currentAccount);
       setRenter(renterData);
-      console.log(renterData);
+      // console.log(renterData);
     } catch (error) {
       console.log(error.reason);
     }

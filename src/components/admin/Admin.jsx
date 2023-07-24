@@ -6,13 +6,15 @@ import OwnerStats from "./OwnerStats";
 import { Link } from "react-router-dom";
 
 function Admin() {
-  const { ownerBalance } = getBlockchainContext();
+  const { isOwner } = getBlockchainContext();
 
   return (
     <>
-      {ownerBalance === undefined ? (
+      {isOwner === undefined ? (
         <Loading />
-      ) : ownerBalance === null ? (
+      ) : isOwner ? (
+        <OwnerStats />
+      ) : (
         <div class="not-authorized">
           <div class="centered-content">
             <p>Not authorized</p>
@@ -24,8 +26,6 @@ function Admin() {
             </Link>
           </div>
         </div>
-      ) : (
-        <OwnerStats />
       )}
     </>
   );

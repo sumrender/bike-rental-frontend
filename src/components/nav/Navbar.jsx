@@ -4,7 +4,6 @@ import { getBlockchainContext } from "../../context/BlockchainContext";
 
 const Navbar = () => {
   const { connectWallet, currentAccount, isOwner } = getBlockchainContext();
-  console.log("isOwner", isOwner);
   return (
     <>
       <div className="flex justify-between bg-gray-300 p-2">
